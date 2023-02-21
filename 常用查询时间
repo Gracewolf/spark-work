@@ -1,0 +1,28 @@
+select last_day(concat(year(current_date()),'-',lpad(quarter(current_date())*3,2,0),'-','01'))
+--季度末
+select concat(year(current_date()),'-',lpad(quarter(current_date())*3 - 2, 2, 0),'-','01')
+--季度初
+
+select concat(year(date_add(current_date , -1)),
+lpad(month(date_add(current_date , -1)),2,0),lpad(day(date_add(current_date , -1)),2,0))
+
+select current_timestamp()
+
+SELECT mod(month(current_date()),3)
+--每个季度的第n个月
+
+select date_add(last_day(add_months(current_date,-1)),1)
+--本月月初
+
+select last_day(current_date)
+--本月月末
+
+select dayofyear(current_date)
+--一年的天数
+
+SELECT date_add(current_date,-dayofyear(current_date)+1)
+--年初
+
+SELECT add_months(date_add(current_date,-dayofyear(current_date)+1),3)
+--第一财季月初
+
