@@ -1,0 +1,4 @@
+SELECT  reject_date
+FROM prd_sc_common_model.sc_ff_pc_backlog_rt_cml_all
+WHERE to_date(reject_date , 'yyyy-mm-dd' ) BETWEEN (current_date - interval '7' day) AND ( current_date - interval '1' day )
+GROUP BY  reject_date;
