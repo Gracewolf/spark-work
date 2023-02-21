@@ -1,0 +1,10 @@
+SELECT  g_sum
+       ,dates
+FROM prc_cf.gjq_tnb_calender b
+WHERE exists (
+SELECT  g_sum
+       ,dates
+FROM prc_cf.gjq_tnb_calender a
+WHERE dates IN (current_date, date_sub(current_date, 1), date_sub(current_date, 2))
+AND a.g_sum = b.g_sum
+AND a.dates = b.dates
