@@ -1,0 +1,16 @@
+SELECT  *
+FROM
+(
+	SELECT  pn
+	       ,`rsd date`
+	       ,`planned qty`
+	       ,SUM(cast(`planned qty` AS int)) OVER (PARTITION by pn ORDER BY `rsd date` DESC,`planned qty` DESC) AS qty
+	FROM prc_cf.think_final_psd
+)
+GROUP BY  pn
+         ,`rsd date`
+         ,`planned qty`
+         ,qty
+ORDER BY pn
+         ,`rsd date` desc
+         ,`planned qty` desc;
