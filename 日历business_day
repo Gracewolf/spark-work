@@ -1,0 +1,20 @@
+SELECT  lag(dates,1) over (PARTITION BY bd_cd ORDER BY dates) AS bd1
+       ,lag(dates,2) over (PARTITION BY bd_cd ORDER BY dates) AS bd2
+       ,1                                                     AS n
+       ,*
+FROM prc_cf.ff_calendar
+WHERE bd_cd = '工作日'
+AND dates >= '2020-01-01' 
+UNION ALL
+SELECT  date_sub(dates,n)     AS bd1
+       ,date_sub(dates,n + 1) AS bd2
+       ,*
+FROM
+(
+	SELECT  CASE WHEN bd_cd = '工作日' THEN 0
+	             WHEN bd_cd = '休息日' THEN 1  ELSE 0 END AS n
+	       ,*
+	FROM prc_cf.ff_calendar
+	WHERE dates >= '2020-01-01' 
+)
+WHERE bd_cd = '休息日'
