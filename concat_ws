@@ -1,0 +1,1 @@
+SELECT concat_ws(' ','2022-05-06',split(current_timestamp,' ')[1])
