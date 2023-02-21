@@ -1,0 +1,24 @@
+SELECT  a.*
+       ,b.line_psd
+       ,b.psd
+FROM
+(
+	SELECT  *
+	FROM
+	(
+		SELECT  *
+		       ,row_number() OVER (PARTITION BY so ORDER BY version_num DESC) AS rn
+		FROM `prd_sc_common_model`.`sc_psd_history_new`
+		WHERE so IN ( SELECT mfg_so FROM prc_cf.gjq_mfg_so WHERE substr(mfg_so, 1, 3) = '100' ) 
+	)
+	WHERE rn = 1 
+) a
+JOIN
+(
+	SELECT  so
+	       ,so_item
+	       ,line_psd
+	       ,psd
+	FROM prd_sc_common_model.sc_ff_pc_backlog_rt_cml_all
+) b
+ON a.so = b.so;
